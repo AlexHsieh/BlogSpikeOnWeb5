@@ -1,0 +1,83 @@
+{
+  "protocol": "https://myprotocol/post",
+  "published": true,
+  "types": {
+    "subject": {
+      "schema": "https://myprotocol/schema/subject",
+      "dataFormats": ["application/json"]
+    },
+    "post": {
+      "schema": "https://myprotocol/schema/post",
+      "dataFormats": ["application/json"]
+    },
+    "premiumPost": {
+      "schema": "https://myprotocol/schema/premiumPost",
+      "dataFormats": ["application/json"]
+    },
+    "mySubscriber": {
+      "schema": "https://myprotocol/schema/mySubscriber",
+      "dataFormats": ["application/json"]
+    }
+  },
+  "structure": {
+    "subject": {
+      "$actions": [
+        {
+          "who": "anyone",
+          "can": "read"
+        },
+        {
+          "who": "anyone",
+          "can": "write"
+        }
+      ],
+      "mySubscriber": {
+        "$contextRole": true,
+        "$actions": [
+          {
+            "who": "anyone",
+            "can": "read"
+          },
+          {
+            "who": "author",
+            "of": "subject",
+            "can": "write"
+          }
+        ]
+      },
+      "post": {
+        "$actions": [
+          {
+            "who": "anyone",
+            "can": "write"
+          },
+          {
+            "who": "anyone",
+            "can": "read"
+          }
+        ]
+      },
+      "premiumPost": {
+        "$actions": [
+          {
+            "who": "author",
+            "of": "premiumPost",
+            "can": "read"
+          },
+          {
+            "who": "anyone",
+            "can": "write"
+          },
+          {
+            "role": "subject/mySubscriber",
+            "can": "query"
+          },
+          {
+            "role": "subject/mySubscriber",
+            "can": "read"
+          }
+        ]
+      }
+    }
+  }
+}
